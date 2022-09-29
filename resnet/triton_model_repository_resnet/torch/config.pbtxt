@@ -1,0 +1,29 @@
+name: "torch"
+platform: "pytorch_libtorch"
+dynamic_batching { 
+preferred_batch_size: [128,256,512]
+max_queue_delay_microseconds: 100
+}
+
+max_batch_size: 1024
+input {
+    name: "input__0"
+    data_type: TYPE_FP32
+    dims: [3,224,224]
+}
+
+output {
+    name: "output__0"
+    data_type: TYPE_FP32
+    dims: [1000]
+}
+
+instance_group [
+    {
+        count: 1
+        kind: KIND_GPU
+        gpus: [0]
+    }
+]
+
+default_model_filename: "model.pt"

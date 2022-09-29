@@ -1,0 +1,30 @@
+name: "onnx"
+platform: "onnxruntime_onnx"
+dynamic_batching { 
+preferred_batch_size: [64,128,256]
+max_queue_delay_microseconds: 100
+}
+
+max_batch_size: 1024
+input {
+    name: "input"
+    format: FORMAT_NCHW
+    data_type: TYPE_FP32
+    dims: [1,28,28]
+}
+
+output {
+    name: "output"
+    data_type: TYPE_FP32
+    dims: [10]
+}
+
+instance_group [
+    {
+        count: 1
+        kind: KIND_GPU
+        gpus: [0]
+    }
+]
+
+default_model_filename: "model.onnx"
